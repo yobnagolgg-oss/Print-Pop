@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111018"><title>PRINTPOP — Stop scrolling. Start printing.</title>
+<style>
+:root{color-scheme:dark;--bg:#111018;--panel:#1d1a27;--muted:#aaa4b6;--pink:#ff4fa3;--orange:#ff914d;--line:#373142}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:22px 20px 12px;max-width:900px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:1000;font-size:25px;letter-spacing:-1.5px}.logo span{color:var(--pink)}.tag{font-size:12px;color:var(--muted)}
+main{max-width:900px;margin:auto;padding:20px}.hero{padding:30px 24px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#292033,#1d1a27 65%);position:relative;overflow:hidden}
+.kicker{color:var(--orange);font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:clamp(34px,8vw,60px);line-height:1.02;letter-spacing:-2px;margin:12px 0}.hero p{color:var(--muted);max-width:520px}
+button,.link{border:0;border-radius:14px;padding:13px 18px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+.primary{background:linear-gradient(90deg,var(--pink),var(--orange));color:#160f19}.secondary{background:#302a3b;color:white;border:1px solid var(--line)}
+.panel{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.pill{font-size:11px;color:var(--orange);background:#392a2a;padding:5px 10px;border-radius:30px;font-weight:800}
+h2{margin:8px 0;font-size:26px}.muted{color:var(--muted)}.hint{padding:12px 14px;background:#272331;border-radius:12px;margin:8px 0;color:#ddd7e5}
+.hidden{display:none}.model{font-size:30px;font-weight:900;letter-spacing:-1px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.item{background:#272331;border:1px solid var(--line);border-radius:16px;padding:16px}.item h3{margin:6px 0}.item a{color:var(--orange);font-weight:700}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}nav button{background:#272331;color:#ddd}nav button.active{background:var(--pink);color:#1b1019}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:30px}
+</style></head>
+<body>
+<header><div><div class="logo">PRINT<span>POP</span></div><div class="tag">Stop scrolling. Start printing.</div></div><span class="pill">DAILY PRINT CHALLENGE</span></header>
+<main>
+<section class="hero"><div class="kicker">Your next print starts here</div><h1>A little mystery.<br>A lot of printing.</h1><p>Get a surprise 3D-print challenge, uncover clues, reveal the model, and jump straight to its original listing.</p><button class="primary" id="start">Get today's challenge ↗</button></section>
+<nav><button class="active" data-tab="challenge">Challenge</button><button data-tab="discover">Discover</button><button data-tab="shelf">My shelf</button></nav>
+<section id="challenge" class="panel"><div class="row"><span class="pill">TODAY'S MYSTERY</span><span class="muted" id="counter">Ready when you are</span></div><h2 id="mysteryTitle">What will you print?</h2><p class="muted" id="intro">Three clues stand between you and today's model.</p>
+<div id="clues" class="hidden"><div class="hint">💡 Hint 1: <span id="h1"></span></div><div class="hint">💡 Hint 2: <span id="h2"></span></div><div class="hint">💡 Hint 3: <span id="h3"></span></div></div>
+<div id="answer" class="hidden"><div class="model" id="modelName"></div><p class="muted" id="modelDesc"></p><p><span class="pill" id="difficulty"></span> <span class="pill" id="time"></span></p><p class="muted">Demo challenge: model listing and creator details are not verified yet.</p><a class="link primary" id="modelLink" href="https://www.printables.com/" target="_blank" rel="noopener">Browse model listings ↗</a> <button class="secondary" id="save">Save to my shelf</button></div>
+<div class="row" style="margin-top:18px"><button class="secondary" id="hintBtn">Reveal a hint</button><button class="primary" id="reveal">Reveal model</button><button class="secondary" id="again">New challenge</button></div></section>
+<section id="discover" class="panel hidden"><h2>Discover prints</h2><p class="muted">Explore popular model libraries. Choose a site to browse real creator listings.</p><div class="grid"><div class="item"><h3>Printables</h3><p class="muted">Community 3D models</p><a href="https://www.printables.com/" target="_blank" rel="noopener">Explore Printables ↗</a></div><div class="item"><h3>MakerWorld</h3><p class="muted">Find your next project</p><a href="https://makerworld.com/" target="_blank" rel="noopener">Explore MakerWorld ↗</a></div><div class="item"><h3>Thingiverse</h3><p class="muted">A huge model library</p><a href="https://www.thingiverse.com/" target="_blank" rel="noopener">Explore Thingiverse ↗</a></div><div class="item"><h3>Thangs</h3><p class="muted">Search 3D models</p><a href="https://thangs.com/" target="_blank" rel="noopener">Explore Thangs ↗</a></div></div></section>
+<section id="shelf" class="panel hidden"><h2>My shelf</h2><p class="muted" id="empty">Your saved challenges will show up here.</p><div id="saved" class="grid"></div></section>
+</main><footer>PRINTPOP · Made for people who love to print.<br>Challenge examples are demos until real model discovery is connected.</footer>
+<script>
+const models=[
+{name:"Flexi Desk Dragon",hints:["It has a long, segmented body.","It can bend and pose without assembly.","It makes a fun desk companion."],desc:"A flexible fantasy creature for your display shelf.",difficulty:"EASY",time:"2–4 HOURS",url:"https://www.printables.com/search/models?q=flexi%20dragon"},
+{name:"Spiral Twist Fidget",hints:["It is designed to move in your hands.","Its shape follows a repeating twist.","It is a satisfying desk toy."],desc:"A twisty fidget-style print with a flowing shape.",difficulty:"EASY",time:"1–3 HOURS",url:"https://www.printables.com/search/models?q=spiral%20fidget"},
+{name:"Modular Desk Caddy",hints:["It helps organize a workspace.","It can be built from separate sections.","It holds small everyday items."],desc:"A customizable organizer for your desk.",difficulty:"MEDIUM",time:"3–6 HOURS",url:"https://www.printables.com/search/models?q=modular%20desk%20organizer"},
+{name:"Mini Retro Racer",hints:["It is inspired by classic vehicles.","It has four wheels.","It looks great as a small display model."],desc:"A miniature vintage-inspired car model.",difficulty:"MEDIUM",time:"2–5 HOURS",url:"https://www.printables.com/search/models?q=miniature%20retro%20car"}
+];
+let current=null,shown=0;const $=id=>document.getElementById(id);
+function next(){current=models[Math.floor(Math.random()*models.length)];shown=0;$("mysteryTitle").textContent="Your mystery is ready";$("intro").textContent="Reveal the clues one at a time, then uncover the model.";$("clues").classList.remove("hidden");$("answer").classList.add("hidden");$("h1").textContent="???";$("h2").textContent="???";$("h3").textContent="???";$("hintBtn").disabled=false;$("counter").textContent="3 clues available";}
+$("start").onclick=next;$("again").onclick=next;
+$("hintBtn").onclick=()=>{if(!current)next();if(shown<3){shown++;$("h"+shown).textContent=current.hints[shown-1];$("counter").textContent=(3-shown)+" clues remaining";if(shown===3)$("hintBtn").disabled=true;}};
+$("reveal").onclick=()=>{if(!current)next();$("answer").classList.remove("hidden");$("modelName").textContent=current.name;$("modelDesc").textContent=current.desc;$("difficulty").textContent=current.difficulty;$("time").textContent=current.time;$("modelLink").href=current.url;$("mysteryTitle").textContent="Mystery solved!";};
+$("save").onclick=()=>{if(!current)return;let list=JSON.parse(localStorage.getItem("printpopShelf")||"[]");if(!list.includes(current.name))list.push(current.name);localStorage.setItem("printpopShelf",JSON.stringify(list));renderShelf();$("save").textContent="Saved ✓";};
+function renderShelf(){let list=JSON.parse(localStorage.getItem("printpopShelf")||"[]");$("empty").classList.toggle("hidden",list.length>0);$("saved").innerHTML=list.map(n=>'<div class="item"><h3>'+n+'</h3><span class="muted">Saved challenge</span></div>').join("");}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");["challenge","discover","shelf"].forEach(id=>$(id).classList.toggle("hidden",id!==b.dataset.tab));if(b.dataset.tab==="shelf")renderShelf();});
+</script></body></html>
